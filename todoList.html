@@ -1,0 +1,126 @@
+[11:04 AM] Olufunto Oyewole
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        article{
+            height: 50px;
+            width: 300px;
+            background-color: azure;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <input id="to-create"/>
+    <button id="add-btn">Add</button>
+ 
+    <div id="todos-container">
+     
+    </div>
+    <button id="hide">delete</button>
+ 
+    <script>
+        const toCreateInput = document.getElementById("to-create");
+        const addBtn = document.getElementById("add-btn");
+        const todoContainer = document.getElementById("todos-container")
+        const deleteall =document.getElementById("hide")
+        const color = document.getElementById("color")
+        let todoItem = ""
+        let todoList =[]
+        let isEditing = false;
+        let presentIndex;
+        
+        toCreateInput.addEventListener("input",function(event){
+            todoItem = event.currentTarget.value;
+        });
+ 
+        addBtn.addEventListener("click", addingOrEditing)
+ 
+        function addingOrEditing(){
+ 
+            if(isEditing === false){
+                addToList()
+            }else{
+                editTheList()
+            }
+        }
+ 
+        function addToList(){
+            todoList.push(todoItem)
+            console.log(todoList)
+ 
+            paintTheScreen()
+            toCreateInput.value="" //removes everything in the input
+        }
+ 
+ 
+        function deleteItem(i){
+            console.log("mama", i);
+            todoList.splice(i,1);
+            paintTheScreen()
+        }
+ 
+        function paintTheScreen(){
+            todoContainer.innerHTML="";
+ 
+            for(let i= 0; i< todoList.length; i++){
+                const template = ` <article id="todo-box">
+                                        <p>${todoList[i]}</p>
+                                        <button onclick="initiateEdit(${i})">Edit</button>
+                                        <button onclick="completed (${i})" >completed</button>
+                                        <i onclick="deleteItem(${i})" >X</i>
+                                    </article>`
+                
+                todoContainer.innerHTML+= template;
+                
+            }
+        }
+ 
+        paintTheScreen()
+ 
+        function initiateEdit(i){
+            addBtn.innerText="Edit";
+            isEditing= true;
+            toCreateInput.value = todoList[i] ;
+            presentIndex=i;
+        }
+ 
+        function editTheList(){
+            todoList[presentIndex] = toCreateInput.value;
+            paintTheScreen()
+        }
+
+        function completed(){
+            todoContainer.style.backgroundColor="red"
+ 
+ 
+completed()
+
+//          addEventListener("click",function(){
+// todoContainer.style.backgroundColor="red"
+//          })   
+//          paintTheScreen()                 
+        }
+
+        
+
+       
+deleteall.addEventListener("click", function(e) {
+  if(todoContainer){
+    todoContainer.style.display = "none"
+  }else{
+    todoContainer.style.display="block"
+  }
+})
+
+
+    </script>
+</body>
+</html>
